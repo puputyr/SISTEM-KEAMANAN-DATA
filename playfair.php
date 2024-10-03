@@ -122,22 +122,18 @@
                 <?php
                 class PlayfairCipher {
                     private $matrix = array();
-
-                    public function generateKeyMatrix($key) {
-                        $key = strtoupper(str_replace('J', 'I', $key));
-                        $used = [];
-                        $alphabet = 'ABCDEFGHIKLMNOPQRSTUVWXYZ';
-                        $key .= $alphabet;
-
-                        foreach (str_split($key) as $char) {
-                            if (!in_array($char, $used) && ctype_alpha($char)) {
-                                $used[] = $char;
-                            }
-                        }
-
-                        $this->matrix = array_chunk($used, 5);
+                
+                    public function __construct() {
+                        // Initialize the matrix with the specified values
+                        $this->matrix = [
+                            ['M', 'A', 'D', 'I', 'U'],
+                            ['N', 'B', 'C', 'E', 'F'],
+                            ['G', 'H', 'K', 'L', 'O'],
+                            ['P', 'Q', 'R', 'S', 'T'],
+                            ['V', 'W', 'X', 'Y', 'Z']
+                        ];
                     }
-
+                
                     private function findPosition($char) {
                         for ($i = 0; $i < 5; $i++) {
                             for ($j = 0; $j < 5; $j++) {
@@ -146,20 +142,20 @@
                                 }
                             }
                         }
-                        // Jika karakter tidak ditemukan dalam matriks
+                        // If character is not found in the matrix
                         return [null, null];
                     }
-
+                
                     private function prepareText($text) {
                         $text = strtoupper(str_replace('J', 'I', $text));
                         $text = preg_replace('/[^A-Z]/', '', $text);
-
+                
                         $prepared = '';
                         $len = strlen($text);
                         for ($i = 0; $i < $len; $i += 2) {
                             $first = $text[$i];
                             $second = ($i + 1 < $len) ? $text[$i + 1] : 'X';
-
+                
                             if ($first == $second) {
                                 $prepared .= $first . 'X';
                                 $i--;
@@ -167,28 +163,28 @@
                                 $prepared .= $first . $second;
                             }
                         }
-
+                
                         if (strlen($prepared) % 2 != 0) {
                             $prepared .= 'X';
                         }
-
+                
                         return $prepared;
                     }
-
+                
                     public function encrypt($text) {
                         $text = $this->prepareText($text);
                         $cipher = '';
-
+                
                         for ($i = 0; $i < strlen($text); $i += 2) {
                             [$row1, $col1] = $this->findPosition($text[$i]);
                             [$row2, $col2] = $this->findPosition($text[$i + 1]);
-
-                            // Cek apakah posisi valid
+                
+                            // Check if positions are valid
                             if (is_null($row1) || is_null($col1) || is_null($row2) || is_null($col2)) {
                                 echo "<h4>Error: Character not found in key matrix</h4>";
-                                return; // Hentikan jika ada karakter yang tidak ditemukan
+                                return; // Stop if any character is not found
                             }
-
+                
                             if ($row1 == $row2) {
                                 $cipher .= $this->matrix[$row1][($col1 + 1) % 5];
                                 $cipher .= $this->matrix[$row2][($col2 + 1) % 5];
@@ -200,23 +196,23 @@
                                 $cipher .= $this->matrix[$row2][$col1];
                             }
                         }
-
+                
                         return $cipher;
                     }
-
+                
                     public function decrypt($cipher) {
                         $text = '';
-
+                
                         for ($i = 0; $i < strlen($cipher); $i += 2) {
                             [$row1, $col1] = $this->findPosition($cipher[$i]);
                             [$row2, $col2] = $this->findPosition($cipher[$i + 1]);
-
-                            // Cek apakah posisi valid
+                
+                            // Check if positions are valid
                             if (is_null($row1) || is_null($col1) || is_null($row2) || is_null($col2)) {
                                 echo "<h4>Error: Character not found in key matrix</h4>";
-                                return; // Hentikan jika ada karakter yang tidak ditemukan
+                                return; // Stop if any character is not found
                             }
-
+                
                             if ($row1 == $row2) {
                                 $text .= $this->matrix[$row1][($col1 + 4) % 5];
                                 $text .= $this->matrix[$row2][($col2 + 4) % 5];
@@ -228,30 +224,27 @@
                                 $text .= $this->matrix[$row2][$col1];
                             }
                         }
-
+                
                         return $text;
                     }
                 }
-
+                
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $key = $_POST['key'];
                     $plaintext = $_POST['plaintext'];
                     $cipher = new PlayfairCipher();
-                    $cipher->generateKeyMatrix($key);
-
+                
                     if (isset($_POST['encrypt'])) {
                         $encrypted = $cipher->encrypt($plaintext);
                         echo "<h4>Encrypted Text: $encrypted</h4>";
                     }
-
+                
                     if (isset($_POST['decrypt'])) {
                         $decrypted = $cipher->decrypt($plaintext);
                         echo "<h4>Decrypted Text: $decrypted</h4>";
                     }
                 }
                 ?>
-            </div>
-        </div>
-    </div>
+                
+            
 </body>
 </html>
