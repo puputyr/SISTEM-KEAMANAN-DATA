@@ -59,10 +59,24 @@
 
 <body>
     <div class="container">
+        <form method="post">
+            <textarea name="plain" class="form-control" rows="10" placeholder="Input Text" required></textarea>
+            <div>
+                <input class="btn" type="submit" name="enkripsi" value="Encrypt">
+                <input class="btn" type="submit" name="dekripsi" value="Decrypt">
+            </div>
+        </form>
+
+        <!-- Button to navigate back to the first page -->
+        <a href="first_page.php">
+            <button class="btn">Go to Custom Key Encryption</button>
+        </a>
+
         <h1>Vigenère Cipher</h1>
         <?php
         // Vigenère cipher functions
-        function vigenereEncrypt($plainText, $key) {
+        function vigenereEncrypt($plainText, $key)
+        {
             $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $encryptedText = '';
             $keyIndex = 0;
@@ -87,7 +101,8 @@
             return $encryptedText;
         }
 
-        function vigenereDecrypt($encryptedText, $key) {
+        function vigenereDecrypt($encryptedText, $key)
+        {
             $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $decryptedText = '';
             $keyIndex = 0;
@@ -148,4 +163,3 @@
 </body>
 
 </html>
- 

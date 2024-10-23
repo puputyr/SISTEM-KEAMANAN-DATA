@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,25 +56,51 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Vigenère Cipher</h1>
+        <h1>Caesar Cipher</h1>
         <form method="POST">
             <textarea name="inputText" class="form-control" placeholder="Enter text here..." required></textarea>
             <button type="submit" name="encrypt" class="btn">Encrypt</button>
             <button type="submit" name="decrypt" class="btn">Decrypt</button>
         </form>
+
+        <!-- Button to navigate to the second page -->
+        <a href="utsvigenere.php">
+            <button class="btn">Go to Vigenère Cipher with Predefined Key</button>
+        </a>
+
         <div class="output">
             <?php
             // Custom key mapping
             $customKey = [
-                'A' => 'P', 'B' => 'U', 'C' => 'T', 'D' => 'A',
-                'E' => 'B', 'F' => 'C', 'G' => 'D', 'H' => 'E',
-                'I' => 'F', 'J' => 'G', 'K' => 'H', 'L' => 'I',
-                'M' => 'J', 'N' => 'K', 'O' => 'L', 'P' => 'M',
-                'Q' => 'N', 'R' => 'O', 'S' => 'Q', 'T' => 'R',
-                'U' => 'S', 'V' => 'T', 'W' => 'U', 'X' => 'V',
-                'Y' => 'W', 'Z' => 'X'
+                'A' => 'P',
+                'B' => 'U',
+                'C' => 'T',
+                'D' => 'A',
+                'E' => 'B',
+                'F' => 'C',
+                'G' => 'D',
+                'H' => 'E',
+                'I' => 'F',
+                'J' => 'G',
+                'K' => 'H',
+                'L' => 'I',
+                'M' => 'J',
+                'N' => 'K',
+                'O' => 'L',
+                'P' => 'M',
+                'Q' => 'N',
+                'R' => 'O',
+                'S' => 'Q',
+                'T' => 'R',
+                'U' => 'S',
+                'V' => 'T',
+                'W' => 'U',
+                'X' => 'V',
+                'Y' => 'W',
+                'Z' => 'X'
             ];
 
             // Function to encrypt the text
@@ -129,5 +156,5 @@
         </div>
     </div>
 </body>
+
 </html>
- 
